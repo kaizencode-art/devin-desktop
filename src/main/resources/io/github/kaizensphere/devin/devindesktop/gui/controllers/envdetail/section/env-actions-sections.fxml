@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml">
+    <HBox spacing="15">
+        <children>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button styleClass="action-button" text="Edit Env">
+                <graphic>
+                    <FontIcon iconLiteral="fas-edit"/>
+                </graphic>
+            </Button>
+            <Button styleClass="action-button" text="Duplicate">
+                <graphic>
+                    <FontIcon iconLiteral="fas-copy"/>
+                </graphic>
+            </Button>
+            <Button styleClass="action-button" text="Archive">
+                <graphic>
+                    <FontIcon iconLiteral="fas-archive"/>
+                </graphic>
+            </Button>
+            <Button styleClass="action-button" text="Export">
+                <graphic>
+                    <FontIcon iconLiteral="fas-file-export"/>
+                </graphic>
+            </Button>
+            <!--            <Region HBox.hgrow="ALWAYS"/>-->
+        </children>
+    </HBox>
+
+</StackPane>

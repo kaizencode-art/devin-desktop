@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml">
+    <VBox spacing="5">
+        <children>
+            <HBox spacing="10">
+                <children>
+                    <Label styleClass="synchronization-status-label" text="Synchronization Status:"/>
+                    <Label styleClass="force-sync-label" text="[Force Sync]"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="Last Sync:"/>
+                    <Label styleClass="last-sync-label" text="Successful • 2025-03-08 10:05 AM"/>
+                </children>
+            </HBox>
+            <Separator styleClass="separator-line"/>
+
+            <!-- Status des nodes : on peut aussi faire un GridPane si on veut aligner proprement -->
+            <VBox spacing="15">
+                <children>
+                    <Label styleClass="synchronization-status-label" text="Connected Nodes:"/>
+                    <!-- Node 1 -->
+                    <HBox spacing="3">
+                        <children>
+                            <FontIcon iconLiteral="fas-check-circle" styleClass="status-valid"/>
+                            <Label styleClass="node-status-label" text="Node 1 : synced"/>
+                        </children>
+                    </HBox>
+                    <!-- Node 2 -->
+                    <HBox spacing="3">
+                        <children>
+                            <FontIcon iconLiteral="fas-check-circle" styleClass="status-valid"/>
+                            <Label styleClass="node-status-label" text="Node 2 : synced"/>
+                        </children>
+                    </HBox>
+                    <!-- Node 3 -->
+                    <HBox spacing="3">
+                        <children>
+                            <FontIcon iconLiteral="fas-exclamation-triangle" styleClass="node-status-icon-orange"/>
+                            <Label styleClass="node-status-label" text="Node 3 : out-of-sync (2 vars outdated)"/>
+                        </children>
+                    </HBox>
+                </children>
+            </VBox>
+        </children>
+    </VBox>
+
+</StackPane>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane styleClass="body" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.kaizensphere.devin.devindesktop.gui.controllers.MainController">
+
+    <!-- TOP: Search Bar -->
+    <top>
+        <MenuBar>
+            <Menu text="File" />
+            <Menu text="Edit" />
+            <Menu text="View" />
+            <Menu text="Insert" />
+            <Menu text="Modify" />
+        </MenuBar>
+    </top>
+
+    <!-- LEFT: Sidebar List -->
+    <left>
+      <ScrollPane>
+         <content>
+              <VBox spacing="10">
+                  <HBox spacing="5">
+                      <HBox styleClass="search-box">
+                          <TextField fx:id="searchField" promptText="Search..." styleClass="search-field" />
+                          <Button fx:id="searchButton" styleClass="search-button">
+                              <graphic>
+                                  <FontIcon iconLiteral="fas-search" />
+                              </graphic>
+                          </Button>
+                      </HBox>
+                      <padding>
+                          <Insets top="5.0" />
+                      </padding>
+                  </HBox>
+                  <fx:include source="gui/controllers/envlist/env-list.fxml" />
+                  <padding>
+                      <Insets bottom="10.0" left="10.0" right="10.0" />
+                  </padding>
+              </VBox>
+         </content>
+      </ScrollPane>
+    </left>
+
+
+    <!-- CENTER: Main Content -->
+    <center>
+        <ScrollPane fitToWidth="true">
+            <fx:include source="gui/controllers/envdetail/env.fxml" />
+        </ScrollPane>
+    </center>
+
+</BorderPane>

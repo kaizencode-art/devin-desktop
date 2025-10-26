@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="5" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="io.github.kaizensphere.devin.devindesktop.gui.controllers.envdetail.section.EnvTableviewSectionController">
+    <children>
+        <Label styleClass="recent-activity-title" text="Variables"/>
+        <TableView fx:id="tableVariablesView" minHeight="150" styleClass="table-view" editable="true">
+            <columns>
+                <TableColumn fx:id="nameColumn" text="Name"/>
+                <TableColumn fx:id="valueColumn" text="Value"/>
+                <TableColumn fx:id="updatedDateColumn" text="Updated"/>
+                <!--            <TableColumn prefWidth="130" text="Default"/>-->
+                <!--            <TableColumn prefWidth="100" text="Updated"/>-->
+            </columns>
+        </TableView>
+    </children>
+</VBox>
