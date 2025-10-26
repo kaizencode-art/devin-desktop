@@ -1,0 +1,27 @@
+
+.custom-environment-list {
+    -fx-background-color: -color-bg-subtle;
+    -fx-border-width: 0;
+    -fx-min-height: 60px;
+}
+
+.custom-environment-list .list-cell {
+    -fx-background-color: -color-bg-subtle;
+}
+
+
+.item-title {
+    -fx-weight: 'Arial';
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.item-description {
+    -fx-font-size: 12px;
+    -fx-line-height: 1.2;
+}
+
+.list-item {
+    -fx-min-height: 45px;
+    -fx-border-width: 0;
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox xmlns="http://javafx.com/javafx" stylesheets="@../../../css/environment-style.css"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="io.github.kaizensphere.devin.devindesktop.gui.controllers.envlist.EnvListController">
+    <ListView fx:id="environmentListView"
+    styleClass="custom-environment-list" />
+</VBox>

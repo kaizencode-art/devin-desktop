@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml">
+    <VBox spacing="5">
+        <children>
+            <Label styleClass="recent-activity-title" text="Recent Activity"/>
+            <VBox spacing="2" styleClass="recent-activity-padding">
+                <children>
+                    <Label styleClass="recent-activity-label" text="- API_SECRET modified by user_x • 2025-03-07"/>
+                    <Label styleClass="recent-activity-label" text="- DATABASE_URL updated by user_y • 2025-03-05"/>
+                    <Label styleClass="recent-activity-label"
+                           text="- CACHE_ENABLED set to true by user_z • 2025-03-01"/>
+                </children>
+            </VBox>
+        </children>
+    </VBox>
+
+</StackPane>

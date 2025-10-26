@@ -1,0 +1,101 @@
+
+.body {
+    -fx-background-color: -color-bg-subtle !important;
+}
+
+.content {
+    -fx-background-color: -color-bg-default;
+}
+
+/* Search Box (Rounded Input & Button) */
+.search-box {
+    -fx-background-color: #333;
+    -fx-background-radius: 15px;
+    -fx-padding: 5px;
+    -fx-spacing: 0; /* No gap between input and button */
+    -fx-pref-width: 100%; /* Match list width */
+}
+
+/* Search Input */
+.search-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #bbbbbb;
+    -fx-border-width: 0;
+    -fx-background-radius: 30px 0 0 30px;
+    -fx-padding: 8px 10px;
+    -fx-min-width: 200px;
+    -fx-pref-height: 30px;
+}
+
+/* Search Button */
+.search-button {
+    -fx-background-color: #444;
+    -fx-border-width: 0;
+    -fx-background-radius: 0 15px 15px 0;
+    -fx-padding: 8px;
+    -fx-pref-height: 30px;
+}
+
+.styled-list-view {
+    -fx-background-color: -color-bg-subtle;
+    -fx-border-width: 0;
+}
+
+.separator-line {
+    -fx-border-width: 2 0 0 0;
+    -fx-padding: dotted;
+}
+
+
+.status-valid {
+    -fx-icon-color: -color-success-emphasis;
+}
+
+.status-invalid {
+    -fx-icon-color: -color-danger-emphasis;
+}
+
+.status-warning {
+    -fx-icon-color: -color-warning-emphasis;
+}
+
+/*!* List View *!*/
+/*.item-list {*/
+/*    -fx-pref-width: 100%;*/
+/*    -fx-pref-height: 250px; !* Adjust height as needed *!*/
+/*}*/
+
+/*!* Ajustements pour la liste *!*/
+/*.item-list .list-item {*/
+/*    -fx-padding: 0 15px;*/
+/*    -fx-min-height: 45px;*/
+/*    -fx-border-width: 0;*/
+/*}*/
+
+/*!* Amélioration de l'espace vertical *!*/
+/*.item-title {*/
+/*    -fx-weight: 'Arial';*/
+/*    -fx-font-weight: bold;*/
+/*}*/
+
+/*.item-description {*/
+/*    -fx-font-size: 12px; !* Police plus petite pour la description *!*/
+/*    -fx-line-height: 1.2; !* Hauteur de ligne augmentée pour meilleure lisibilité *!*/
+/*}*/
+
+/*.item-list .list-item:hover {*/
+/*    -fx-background-color: -color-bg-hover; !* AtlantaFX hover effect *!*/
+/*}*/
+
+/*.status-valid {*/
+/*    -fx-background-color: -color-success-fg;*/
+/*}*/
+/*!* Content Area *!*/
+/*.content-area {*/
+/*    -fx-background-color: -color-bg-subtle;*/
+/*}*/
+
+/*.placeholder-text {*/
+/*    -fx-font-size: 16px;*/
+/*}*/
