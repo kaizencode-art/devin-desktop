@@ -2,7 +2,7 @@ package io.github.kaizensphere.devin.devindesktop.observablemodel;
 
 import javafx.beans.property.SimpleObjectProperty;
 
-public class EnvVariableModel {
+public class EnvVariable {
 
     private final SimpleObjectProperty<io.github.kaizensphere.devin.devindesktop.models.EnvVariableModel> guiEnvVariableModel = new SimpleObjectProperty<>();
 

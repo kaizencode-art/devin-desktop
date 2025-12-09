@@ -11,7 +11,6 @@
       xmlns="http://javafx.com/javafx/23.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="io.github.kaizensphere.devin.devindesktop.gui.controllers.envlist.EnvItemCellController"
-      onMouseClicked="#onContainerClick"
      >
     <VBox spacing="4">
         <Label fx:id="titleLabel" styleClass="item-title" text="Title 1" />

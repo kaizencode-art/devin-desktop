@@ -10,43 +10,51 @@ public class EnvStore implements EnvSubject {
     private final Map<UUID, Integer> idIndex = new HashMap<>();
     List<EnvStoreListener> listeners = new ArrayList<>();
 
-    public void addEnvVariable(UUID envId, EnvVariableModel envVariableModel) {
-        getEnvById(envId).ifPresent(envModel -> {
-            envModel.variables().add(envVariableModel);
-            notifyListeners();
-        });
+    private int findVarIndexById(List<EnvVariableModel> vars, UUID id) {
+        for (int i = 0; i < vars.size(); i++) {
+            if (vars.get(i).id().equals(id)) return i;
+        }
+        return -1;
     }
 
-    public void updateEnvVariable(UUID envId, EnvVariableModel envVariableModel) {
-        getEnvById(envId).ifPresent(envModel -> {
-            envModel.variables().set(envModel.variables().indexOf(envVariableModel), envVariableModel);
-            notifyListeners();
-        });
+    private void rebuildIdIndex() {
+        idIndex.clear();
+        for (int i = 0; i < envs.size(); i++) {
+            idIndex.put(envs.get(i).id(), i);
+        }
     }
 
-    public void removeEnvVariable(UUID envId, EnvVariableModel envVariableModel) {
-        getEnvById(envId).ifPresent(envModel -> {
-            envModel.variables().remove(envVariableModel);
-            notifyListeners();
-        });
+    private void notifyListeners() {
+        listeners.forEach(EnvStoreListener::onEnvironmentChanged);
     }
 
     public void addEnv(EnvModel envModel) {
-        if (idIndex.containsKey(envModel.id())) {
-            throw new IllegalArgumentException("Duplicate Env ID: " + envModel.id());
-        }
         envs.add(envModel);
         idIndex.put(envModel.id(), envs.size() - 1);
         notifyListeners();
-
     }
 
     public void updateEnv(EnvModel envModel) {
-        if (!idIndex.containsKey(envModel.id())) {
-            throw new IllegalArgumentException("Env ID not found: " + envModel.id());
-        }
-        envs.set(idIndex.get(envModel.id()), envModel);
+        Integer index = idIndex.get(envModel.id());
+        if(index == null) return;
+        envs.set(index, envModel);
         notifyListeners();
+    }
+
+    public boolean removeEnv(EnvModel envModel) {
+        Integer index = idIndex.get(envModel.id());
+        boolean removed = envs.remove(envModel);
+        if(!removed && index != null) {
+            if(index >= 0 && index < envs.size() && envs.get(index).id().equals(envModel.id())) {
+                envs.remove((int)index);
+                removed = true;
+            }
+        }
+        if(removed) {
+            rebuildIdIndex();
+            notifyListeners();
+        }
+        return removed;
     }
 
     public List<EnvModel> getEnvs() {
@@ -58,17 +66,48 @@ public class EnvStore implements EnvSubject {
         return index != null ? Optional.of(envs.get(index)) : Optional.empty();
     }
 
-    public boolean removeEnv(EnvModel envModel) {
-        if (!envs.contains(envModel)) return false;
-        envs.remove(envModel);
-        idIndex.remove(envModel.id());
+
+    public void addEnvVariable(UUID envId, EnvVariableModel newEnvVariableModel) {
+        Integer index = idIndex.get(envId);
+        if(index == null) return;
+        EnvModel envModel = envs.get(index);
+        List<EnvVariableModel> updatedVars = new ArrayList<>(envModel.variables());
+        updatedVars.add(newEnvVariableModel);
+        EnvModel updatedEnvModel = new EnvModel(envModel.title(), envModel.description(), envModel.status(), updatedVars);
+        envs.set(index, updatedEnvModel);
         notifyListeners();
-        return true;
+
     }
 
-    private void notifyListeners() {
-        listeners.forEach(EnvStoreListener::onEnvironmentChanged);
+    public void updateEnvVariable(UUID envId, UUID oldEnvVariableId, EnvVariableModel updatedEnvVariable) {
+        Integer index = idIndex.get(envId);
+        if(index == null) return;
+        EnvModel envModel = envs.get(index);
+        List<EnvVariableModel> updatedVars = new ArrayList<>(envModel.variables());
+        int selectedVarIndex = findVarIndexById(updatedVars, oldEnvVariableId);
+        if(selectedVarIndex < 0) return;
+        updatedVars.set(selectedVarIndex, updatedEnvVariable);
+        EnvModel updatedEnvModel = new EnvModel(envModel.title(), envModel.description(), envModel.status(), updatedVars);
+        envs.set(index, updatedEnvModel);
+        rebuildIdIndex();
+        notifyListeners();
     }
+
+    public void removeEnvVariable(UUID envId, UUID envVariableId) {
+        Integer index = idIndex.get(envId);
+        if(index == null) return;
+        EnvModel envModel = envs.get(index);
+        var vars = envModel.variables();
+        int selectedVarIndex = findVarIndexById(vars, envVariableId);
+        if(selectedVarIndex < 0) return;
+        List<EnvVariableModel> updatedVars = new ArrayList<>(envModel.variables());
+        updatedVars.remove(selectedVarIndex);
+        EnvModel updatedEnvModel = new EnvModel(envModel.title(), envModel.description(), envModel.status(), updatedVars);
+        envs.set(index, updatedEnvModel);
+        notifyListeners();
+    }
+
+
 
     @Override
     public void registerListener(EnvStoreListener listener) {
