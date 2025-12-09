@@ -2,7 +2,7 @@ package io.github.kaizensphere.devin.devindesktop.store;
 
 public interface EnvSubject {
 
-    public void registerListener(EnvStoreListener listener);
+    void registerListener(EnvStoreListener listener);
 
-    public void removeListener(EnvStoreListener listener);
+    void removeListener(EnvStoreListener listener);
 }

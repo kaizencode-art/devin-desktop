@@ -2,7 +2,9 @@ package io.github.kaizensphere.devin.devindesktop;
 
 import io.github.kaizensphere.devin.devindesktop.models.EnvModel;
 import io.github.kaizensphere.devin.devindesktop.models.EnvVariableModel;
+import io.github.kaizensphere.devin.devindesktop.observablemodel.SelectedEnvFx;
 import io.github.kaizensphere.devin.devindesktop.store.EnvStore;
+import io.github.kaizensphere.devin.devindesktop.store.EnvStoreFx;
 
 import java.util.List;
 
@@ -15,8 +17,10 @@ public class AppContext {
 
     // DI setup for the environnement
     public static final EnvStore envStore = new EnvStore();
+    public static final EnvStoreFx envStoreFx = new EnvStoreFx(envStore);
+    public static final SelectedEnvFx selectedEnvFx = SelectedEnvFx.init(envStore);
 
-    public AppContext() {
+    public static void run() {
         EnvVariableModel[] envVariables = new EnvVariableModel[3];
         envVariables[0] = new EnvVariableModel("env1", "env1");
         envVariables[1] = new EnvVariableModel("env2", "env2");

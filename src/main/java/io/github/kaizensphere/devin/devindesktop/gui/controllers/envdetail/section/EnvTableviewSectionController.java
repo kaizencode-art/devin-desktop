@@ -4,11 +4,9 @@ import io.github.kaizensphere.devin.devindesktop.AppContext;
 import io.github.kaizensphere.devin.devindesktop.gui.components.env.EnvStringEditableCell;
 import io.github.kaizensphere.devin.devindesktop.models.EnvModel;
 import io.github.kaizensphere.devin.devindesktop.models.EnvVariableModel;
-import io.github.kaizensphere.devin.devindesktop.observablemodel.SelectedEnvModel;
-import io.github.kaizensphere.devin.devindesktop.store.EnvStoreListener;
+import io.github.kaizensphere.devin.devindesktop.observablemodel.SelectedEnv;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -17,11 +15,10 @@ import javafx.scene.control.TableView;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-public class EnvTableviewSectionController implements EnvStoreListener {
+public class EnvTableviewSectionController {
 
     Logger logger = Logger.getLogger(EnvTableviewSectionController.class.getName());
 
@@ -43,9 +40,6 @@ public class EnvTableviewSectionController implements EnvStoreListener {
     private TableColumn<EnvVariableModel, String> updatedDateColumn;
 
     private final ObservableList<EnvVariableModel> tableEnvVariables = FXCollections.observableArrayList();
-    private boolean isInternalChange = false;
-
-    private EnvModel boundModel;
 
 
     @FXML
@@ -54,26 +48,19 @@ public class EnvTableviewSectionController implements EnvStoreListener {
         setupValueColumn();
         setupUpdatedDateColumn();
 
-        boundModel = SelectedEnvModel.getInstance().getReadOnlySelectedEnv();
-        AppContext.envStore.registerListener(this);
+        EnvModel boundModel = AppContext.selectedEnvFx.getSelectedEnv();
 
         tableVariablesView.autosize();
 
-        SelectedEnvModel.selectedEnvProperty().addListener((obs, oldEnv, newEnv) -> {
-            if (newEnv == null && newEnv.variables() == null) {
+        AppContext.selectedEnvFx.selectedEnvProperty().addListener((obs, oldEnv, newEnv) -> {
+            if (newEnv == null || newEnv.variables() == null) {
                 tableEnvVariables.clear();
                 addEmptyRow();
                 return;
             }
 
-            List<EnvVariableModel> newEnvVariables = newEnv.variables();
-            if (!newEnv.variables().equals(tableEnvVariables)) {
-                this.tableEnvVariables.setAll();
-                tableEnvVariables.setAll(newEnvVariables);
-                addEmptyRow();
-            } else {
-                logger.info("Env variables did not change, not re-rendering");
-            }
+            tableEnvVariables.setAll(newEnv.variables());
+            addEmptyRow();
         });
 
         if (boundModel != null) {
@@ -86,6 +73,10 @@ public class EnvTableviewSectionController implements EnvStoreListener {
     private void setupNameColumn() {
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().name()));
         nameColumn.setCellFactory(col -> new EnvStringEditableCell(
+                () -> {
+                    var env = AppContext.selectedEnvFx.getSelectedEnv();
+                    return env != null ? env.id() : null;
+                },
                 String::toUpperCase,
                 s -> s.replaceAll("[^a-zA-Z0-9]", ""),
                 (oldVar, newValue) -> new EnvVariableModel(newValue, oldVar.value())
@@ -96,6 +87,10 @@ public class EnvTableviewSectionController implements EnvStoreListener {
     private void setupValueColumn() {
         valueColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().value()));
         valueColumn.setCellFactory(col -> new EnvStringEditableCell(
+                () -> {
+                    var env = AppContext.selectedEnvFx.getSelectedEnv();
+                    return env != null ? env.id() : null;
+                },
                 (oldVar, newValue) -> new EnvVariableModel(oldVar.name(), newValue)
         ));
         valueColumn.prefWidthProperty().bind(tableVariablesView.widthProperty().divide(3));
@@ -120,15 +115,5 @@ public class EnvTableviewSectionController implements EnvStoreListener {
             }
         }
         tableVariablesView.scrollTo(this.tableEnvVariables.size() - 1);
-    }
-
-    @Override
-    public void onEnvironmentChanged() {
-        this.tableEnvVariables.setAll(AppContext.envStore.getEnvs().stream()
-                .filter(env -> env.id().equals(boundModel.id()))
-                .findFirst()
-                .orElse(boundModel)
-                .variables()
-        );
     }
 }
