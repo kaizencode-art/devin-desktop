@@ -1,8 +1,6 @@
 package io.github.kaizensphere.devin.devindesktop.gui.controllers.envdetail.section;
 
-import io.github.kaizensphere.devin.devindesktop.gui.controllers.envlist.EnvItemCellController;
-import io.github.kaizensphere.devin.devindesktop.models.EnvModel;
-import io.github.kaizensphere.devin.devindesktop.observablemodel.SelectedEnvModel;
+import io.github.kaizensphere.devin.devindesktop.observablemodel.SelectedEnv;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -20,7 +18,7 @@ public class EnvHeaderSectionController {
 
     @FXML
     private void initialize() {
-        SelectedEnvModel.selectedEnvProperty().addListener((obs, oldEnv, newEnv) -> {
+        SelectedEnv.selectedEnvProperty().addListener((obs, oldEnv, newEnv) -> {
             if(newEnv != null) {
                 this.titleLabel.setText(newEnv.title());
                 statusIcon.getStyleClass().removeAll("status-valid", "status-warning", "status-invalid");
