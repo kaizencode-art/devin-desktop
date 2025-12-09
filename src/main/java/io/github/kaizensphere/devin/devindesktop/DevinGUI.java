@@ -12,7 +12,9 @@ import java.io.IOException;
 
 public class DevinGUI extends Application {
 
-    AppContext context = new AppContext();
+    static {
+        AppContext.run();
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
