@@ -1,0 +1,11 @@
+## Acknowledgements – Community-Driven Projects
+
+This project relies on several open-source libraries that are **primarily maintained by small teams or volunteer communities**, without major corporate funding, yet are essential to the Java ecosystem:
+
+* **JUnit 5** – Core testing infrastructure for the Java ecosystem
+* **Mockito** – Essential mocking framework for unit testing
+* **WellBehavedFX (org.fxmisc)** – Advanced keyboard and navigation event handling
+* **Atlantafx** – Modern theming for JavaFX
+* **Ikonli** – Icon integration for JavaFX
+
+Their reliability and quality are the result of continuous effort from dedicated maintainers and contributors. This project is deeply grateful for their work.
