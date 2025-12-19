@@ -75,6 +75,7 @@ public class EnvStore implements EnvSubject {
         updatedVars.add(newEnvVariableModel);
         EnvModel updatedEnvModel = new EnvModel(envModel.title(), envModel.description(), envModel.status(), updatedVars);
         envs.set(index, updatedEnvModel);
+        rebuildIdIndex();
         notifyListeners();
 
     }
@@ -85,7 +86,10 @@ public class EnvStore implements EnvSubject {
         EnvModel envModel = envs.get(index);
         List<EnvVariableModel> updatedVars = new ArrayList<>(envModel.variables());
         int selectedVarIndex = findVarIndexById(updatedVars, oldEnvVariableId);
-        if(selectedVarIndex < 0) return;
+        if(selectedVarIndex < 0) {
+            this.addEnvVariable(envId, updatedEnvVariable);
+            return;
+        }
         updatedVars.set(selectedVarIndex, updatedEnvVariable);
         EnvModel updatedEnvModel = new EnvModel(envModel.title(), envModel.description(), envModel.status(), updatedVars);
         envs.set(index, updatedEnvModel);
