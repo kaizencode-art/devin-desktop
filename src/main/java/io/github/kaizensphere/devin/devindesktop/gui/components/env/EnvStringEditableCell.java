@@ -4,9 +4,7 @@ import io.github.kaizensphere.devin.devindesktop.AppContext;
 import io.github.kaizensphere.devin.devindesktop.models.EnvVariableModel;
 import io.github.kaizensphere.devin.devindesktop.gui.behaviors.interaction.TableNavigationHelper;
 import javafx.application.Platform;
-import javafx.scene.control.TablePosition;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import org.fxmisc.wellbehaved.event.EventPattern;
@@ -23,28 +21,23 @@ import static javafx.scene.input.KeyCombination.SHIFT_ANY;
 
 public class EnvStringEditableCell extends TextFieldTableCell<EnvVariableModel, String> {
 
-    private final Supplier<UUID> envModelIdSupplier;
-    private final BiFunction<EnvVariableModel, String, EnvVariableModel> updateFunction;
     private final Function<String, String> formatter;
     private final Function<String, String> filter;
     private TextField textField;
 
-    public EnvStringEditableCell(Supplier<UUID>  envModelIdSupplier, BiFunction<EnvVariableModel, String, EnvVariableModel> updateFunction) {
-        this(envModelIdSupplier, null, null, updateFunction);
+
+    public EnvStringEditableCell() {
+        this(null, null);
     }
 
-    public EnvStringEditableCell(Supplier<UUID>  envModelIdSupplier, Function<String, String> formatter,
-                                 BiFunction<EnvVariableModel, String, EnvVariableModel> updateFunction) {
-        this(envModelIdSupplier, formatter, null, updateFunction);
+    public EnvStringEditableCell(Function<String, String> formatter) {
+        this(formatter, null);
     }
 
-    public EnvStringEditableCell(Supplier<UUID>  envModelIdSupplier, Function<String, String> formatter,
-                                 Function<String, String> filter,
-                                 BiFunction<EnvVariableModel, String, EnvVariableModel> updateFunction) {
-        this.envModelIdSupplier = envModelIdSupplier;
+    public EnvStringEditableCell(Function<String, String> formatter,
+                                 Function<String, String> filter) {
         this.formatter = formatter;
         this.filter = filter;
-        this.updateFunction = updateFunction;
     }
 
     @Override
@@ -73,42 +66,6 @@ public class EnvStringEditableCell extends TextFieldTableCell<EnvVariableModel, 
         setGraphic(null);
     }
 
-    @Override
-    public void commitEdit(String newValue) {
-        super.commitEdit(newValue);
-
-        UUID envModelId = envModelIdSupplier.get();
-        if(envModelId == null) return;
-        var items = getTableView().getItems();
-        EnvVariableModel oldVar = items.get(getIndex());
-
-        // Ici dans la fonction on crée un nouveau EnvVariable avec les nouvelles valeurs
-        // l'ancien ça reste dans oldEnv updateVar par contre lui garde bien
-        EnvVariableModel updateVar = updateFunction.apply(oldVar, newValue);
-        AppContext.envStore.updateEnvVariable(envModelId, oldVar.id(),  updateVar);
-
-        if (textField != null) textField.setText(newValue);
-        setText(newValue);
-    }
-
-    @Override
-    public void updateItem(String item, boolean empty) {
-        super.updateItem(item, empty);
-
-        if (empty || item == null) {
-            setText(null);
-            setGraphic(null);
-        } else if (isEditing()) {
-            if (textField != null) {
-                textField.setText(item);
-            }
-            setGraphic(textField);
-            setText(null);
-        } else {
-            setText(item);
-            setGraphic(null);
-        }
-    }
 
     private void setupTextFieldFormatter(TextField textField) {
         textField.setTextFormatter(new TextFormatter<>((change) -> {

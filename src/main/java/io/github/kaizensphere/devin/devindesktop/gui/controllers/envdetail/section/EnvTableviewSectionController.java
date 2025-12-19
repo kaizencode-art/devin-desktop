@@ -16,6 +16,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
+import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.logging.Logger;
 
 public class EnvTableviewSectionController {
@@ -72,27 +74,19 @@ public class EnvTableviewSectionController {
 
     private void setupNameColumn() {
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().name()));
+
         nameColumn.setCellFactory(col -> new EnvStringEditableCell(
-                () -> {
-                    var env = AppContext.selectedEnvFx.getSelectedEnv();
-                    return env != null ? env.id() : null;
-                },
                 String::toUpperCase,
-                s -> s.replaceAll("[^a-zA-Z0-9]", ""),
-                (oldVar, newValue) -> new EnvVariableModel(newValue, oldVar.value())
-        ));
+                s -> s.replaceAll("[^a-zA-Z0-9]", ""))
+        );
+        nameColumn.setOnEditCommit(this::onEnvVariableNameEditCommitEdit);
         nameColumn.prefWidthProperty().bind(tableVariablesView.widthProperty().divide(3));
     }
 
     private void setupValueColumn() {
         valueColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().value()));
-        valueColumn.setCellFactory(col -> new EnvStringEditableCell(
-                () -> {
-                    var env = AppContext.selectedEnvFx.getSelectedEnv();
-                    return env != null ? env.id() : null;
-                },
-                (oldVar, newValue) -> new EnvVariableModel(oldVar.name(), newValue)
-        ));
+        valueColumn.setCellFactory(col -> new EnvStringEditableCell());
+        valueColumn.setOnEditCommit(this::onEnvValueNameEditCommitEdit);
         valueColumn.prefWidthProperty().bind(tableVariablesView.widthProperty().divide(3));
     }
 
@@ -115,5 +109,27 @@ public class EnvTableviewSectionController {
             }
         }
         tableVariablesView.scrollTo(this.tableEnvVariables.size() - 1);
+    }
+
+    private void onEnvVariableNameEditCommitEdit(TableColumn.CellEditEvent<EnvVariableModel, String> event) {
+        this.updateVariable(event, (oldEnvVariable, newValue) -> new EnvVariableModel(newValue, oldEnvVariable.value()));
+    }
+
+    private void onEnvValueNameEditCommitEdit(TableColumn.CellEditEvent<EnvVariableModel, String> event) {
+        this.updateVariable(event, (oldEnvVariable, newValue) -> new EnvVariableModel(oldEnvVariable.name(), newValue));
+    }
+
+    private void updateVariable(TableColumn.CellEditEvent<EnvVariableModel, String> event, BiFunction<EnvVariableModel, String, EnvVariableModel> modelMapper) {
+        EnvVariableModel oldEnvVariable = event.getRowValue();
+        String newValue = event.getNewValue();
+        EnvVariableModel updatedEnvVariable = modelMapper.apply(oldEnvVariable, newValue);
+        UUID envModelId = getSelectedEnv().id();
+        if (envModelId != null) {
+            AppContext.envStore.updateEnvVariable(envModelId, oldEnvVariable.id(), updatedEnvVariable);
+        }
+    }
+
+    private EnvModel getSelectedEnv() {
+        return AppContext.selectedEnvFx.getSelectedEnv();
     }
 }
