@@ -1,0 +1,31 @@
+module dev.kaizensphere.devin.desktop {
+    requires javafx.fxml;
+    requires javafx.web;
+
+    requires org.controlsfx.controls;
+    requires com.dlsc.formsfx;
+    requires net.synedra.validatorfx;
+    requires org.kordamp.ikonli.javafx;
+    requires eu.hansolo.tilesfx;
+    requires atlantafx.base;
+    requires java.logging;
+    requires wellbehavedfx;
+
+    opens dev.kaizensphere.devin.desktop.gui.controllers to javafx.fxml;
+
+
+    opens dev.kaizensphere.devin.desktop to javafx.fxml;
+    exports dev.kaizensphere.devin.desktop;
+    exports dev.kaizensphere.devin.models;
+    exports dev.kaizensphere.devin.desktop.store;
+    exports dev.kaizensphere.devin.desktop.gui.models;
+    exports dev.kaizensphere.devin.desktop.gui.controllers.envdetail to javafx.fxml;
+    opens dev.kaizensphere.devin.desktop.gui.controllers.envdetail to javafx.fxml;
+    exports dev.kaizensphere.devin.desktop.gui.controllers.envdetail.section to javafx.fxml;
+    opens dev.kaizensphere.devin.desktop.gui.controllers.envdetail.section to javafx.fxml;
+    exports dev.kaizensphere.devin.desktop.gui.controllers.envlist to javafx.fxml;
+    opens dev.kaizensphere.devin.desktop.gui.controllers.envlist to javafx.fxml;
+    exports dev.kaizensphere.devin.desktop.gui.controllers;
+    exports dev.kaizensphere.devin.desktop.gui.components.env to javafx.fxml;
+    opens dev.kaizensphere.devin.desktop.gui.components.env to javafx.fxml;
+}
