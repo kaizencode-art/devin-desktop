@@ -1,1 +1,3 @@
-rootProject.name = "devin-desktop"
+rootProject.name = "devin"
+include("desktop-app")
+include 'core'
