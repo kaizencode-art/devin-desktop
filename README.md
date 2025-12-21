@@ -1,10 +1,13 @@
-# Objective
+# D.E.V.IN
+> **D**istributed **E**nvironment **V**ariable **In**tegration
+
+## Objective
 
 Provide a simple and responsive desktop application to manage environments and their variables (creation, visualization, in-place editing).
 Respect the immutability of the models (**EnvModel**, **EnvVariableModel**) while maintaining a fluid UI through index-based selection (no IDs on the UI side).
 Decouple the pure domain layer (store without JavaFX) from the UI layer through adapters (**EnvStoreFx**, **SelectedEnvFx**) to improve testability and maintainability.
 
-# Tech Stack
+## Tech Stack
 
 * **Language & Runtime:** Java 21+
 * **UI:** JavaFX 23
@@ -17,7 +20,7 @@ Decouple the pure domain layer (store without JavaFX) from the UI layer through 
 * **Models:** Java `record` (immutable) for EnvModel and EnvVariableModel
 * **Architecture:** EnvStore (pure domain, custom listeners) + EnvStoreFx (ObservableList mirror) + SelectedEnvFx (index-based selection)
 
-## Project Status & Intent
+### Project Status & Intent
 
 This project is primarily an experimental and exploratory effort. There is currently no fixed roadmap or predefined end goal. It is driven by experimentation and learning.
 
