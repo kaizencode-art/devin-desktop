@@ -1,6 +1,5 @@
-package dev.kaizensphere.devin.models;
+package dev.kaizensphere.devin.model;
 
-import dev.kaizensphere.devin.models.EnvVariableModel;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

@@ -1,0 +1,27 @@
+plugins {
+    id("java-library")
+    id('application')
+}
+
+group = "dev.kaizensphere.devin.records"
+version = "unspecified"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation project(":core")
+
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+
+    implementation("org.eclipse.store:storage-embedded:3.1.0")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}

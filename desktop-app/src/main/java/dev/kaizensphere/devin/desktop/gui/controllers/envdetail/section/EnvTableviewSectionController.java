@@ -2,8 +2,8 @@ package dev.kaizensphere.devin.desktop.gui.controllers.envdetail.section;
 
 import dev.kaizensphere.devin.desktop.AppContext;
 import dev.kaizensphere.devin.desktop.gui.components.env.EnvStringEditableCell;
-import dev.kaizensphere.devin.models.EnvModel;
-import dev.kaizensphere.devin.models.EnvVariableModel;
+import dev.kaizensphere.devin.model.EnvModel;
+import dev.kaizensphere.devin.model.EnvVariableModel;
 import dev.kaizensphere.devin.utils.EnvValidationUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
