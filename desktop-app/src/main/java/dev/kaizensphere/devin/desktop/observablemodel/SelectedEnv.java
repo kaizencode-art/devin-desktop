@@ -1,7 +1,7 @@
 package dev.kaizensphere.devin.desktop.observablemodel;
 
 import dev.kaizensphere.devin.desktop.AppContext;
-import dev.kaizensphere.devin.models.EnvModel;
+import dev.kaizensphere.devin.model.EnvModel;
 import dev.kaizensphere.devin.store.EnvStoreListener;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyIntegerWrapper;

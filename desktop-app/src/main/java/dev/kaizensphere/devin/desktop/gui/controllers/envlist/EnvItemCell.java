@@ -1,6 +1,6 @@
 package dev.kaizensphere.devin.desktop.gui.controllers.envlist;
 
-import dev.kaizensphere.devin.models.EnvModel;
+import dev.kaizensphere.devin.model.EnvModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.Parent;

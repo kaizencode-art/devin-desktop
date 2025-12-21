@@ -1,7 +1,7 @@
 package dev.kaizensphere.devin.store;
 
-import dev.kaizensphere.devin.models.EnvModel;
-import dev.kaizensphere.devin.models.EnvVariableModel;
+import dev.kaizensphere.devin.model.EnvModel;
+import dev.kaizensphere.devin.model.EnvVariableModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

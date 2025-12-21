@@ -1,4 +1,4 @@
-package dev.kaizensphere.devin.models;
+package dev.kaizensphere.devin.model;
 
 import java.time.Instant;
 import java.util.UUID;

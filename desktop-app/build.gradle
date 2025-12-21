@@ -44,6 +44,7 @@ javafx {
 dependencies {
 
     implementation project(":core")
+    implementation project(":devin-records")
 
     implementation('org.controlsfx:controlsfx:11.2.1')
     implementation('com.dlsc.formsfx:formsfx-core:11.6.0') {
@@ -75,6 +76,16 @@ dependencies {
     mockitoAgent("org.mockito:mockito-core:5.17.0") {
         transitive = false
     }
+}
+
+run {
+    jvmArgs = [
+            "--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED",
+            "--add-opens=java.base/java.lang=ALL-UNNAMED",
+            "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED",
+            "--add-opens=java.base/java.util=ALL-UNNAMED",
+            "--add-opens=java.base/java.nio=ALL-UNNAMED"
+    ]
 }
 
 test {

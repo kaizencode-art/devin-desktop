@@ -1,4 +1,4 @@
-package dev.kaizensphere.devin.models;
+package dev.kaizensphere.devin.model;
 
 import java.util.List;
 import java.util.UUID;
