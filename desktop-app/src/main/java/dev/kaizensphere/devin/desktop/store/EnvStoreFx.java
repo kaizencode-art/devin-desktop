@@ -1,7 +1,6 @@
 package dev.kaizensphere.devin.desktop.store;
 
-import dev.kaizensphere.devin.models.EnvModel;
-import dev.kaizensphere.devin.store.EnvStoreListener;
+import dev.kaizensphere.devin.model.EnvModel;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,7 +1,7 @@
 package dev.kaizensphere.devin.desktop.observablemodel;
 
-import dev.kaizensphere.devin.models.EnvModel;
-import dev.kaizensphere.devin.models.EnvVariableModel;
+import dev.kaizensphere.devin.model.EnvModel;
+import dev.kaizensphere.devin.model.EnvVariableModel;
 import dev.kaizensphere.devin.store.EnvStore;
 import javafx.application.Platform;
 import org.junit.jupiter.api.BeforeAll;

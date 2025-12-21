@@ -29,6 +29,11 @@ public class DevinGUI extends Application {
         stage.show();
     }
 
+    @Override
+    public void stop() {
+        AppContext.repository.close();
+    }
+
     public static void main(String[] args) {
         launch();
     }

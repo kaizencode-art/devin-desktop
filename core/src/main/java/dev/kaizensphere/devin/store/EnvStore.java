@@ -1,14 +1,30 @@
 package dev.kaizensphere.devin.store;
 
-import dev.kaizensphere.devin.models.EnvModel;
-import dev.kaizensphere.devin.models.EnvVariableModel;
+import dev.kaizensphere.devin.model.EnvModel;
+import dev.kaizensphere.devin.model.EnvVariableModel;
+import dev.kaizensphere.devin.persistence.EnvRepository;
 
 import java.util.*;
 
 public class EnvStore implements EnvSubject {
-    private final List<EnvModel> envs = new ArrayList<>();
+    private List<EnvModel> envs;
     private final Map<UUID, Integer> idIndex = new HashMap<>();
     List<EnvStoreListener> listeners = new ArrayList<>();
+
+    public EnvStore() {
+        this.envs = new ArrayList<>();
+    }
+
+    public EnvStore(EnvRepository repository) {
+        var loadedEnvs = repository.loadAll();
+        if (loadedEnvs == null) {
+            loadedEnvs = new ArrayList<>();
+            loadedEnvs.add(new EnvModel("test env", "New Environment", EnvModel.Status.VALID, new ArrayList<>()));
+        }
+
+        this.envs = (List<EnvModel>) loadedEnvs;
+        rebuildIdIndex();
+    }
 
     private int findVarIndexById(List<EnvVariableModel> vars, UUID id) {
         for (int i = 0; i < vars.size(); i++) {
@@ -36,7 +52,7 @@ public class EnvStore implements EnvSubject {
 
     public void updateEnv(EnvModel envModel) {
         Integer index = idIndex.get(envModel.id());
-        if(index == null) return;
+        if (index == null) return;
         envs.set(index, envModel);
         rebuildIdIndex();
         notifyListeners();
@@ -45,13 +61,13 @@ public class EnvStore implements EnvSubject {
     public boolean removeEnv(EnvModel envModel) {
         Integer index = idIndex.get(envModel.id());
         boolean removed = envs.remove(envModel);
-        if(!removed && index != null) {
-            if(index >= 0 && index < envs.size() && envs.get(index).id().equals(envModel.id())) {
-                envs.remove((int)index);
+        if (!removed && index != null) {
+            if (index >= 0 && index < envs.size() && envs.get(index).id().equals(envModel.id())) {
+                envs.remove((int) index);
                 removed = true;
             }
         }
-        if(removed) {
+        if (removed) {
             rebuildIdIndex();
             notifyListeners();
         }
@@ -70,7 +86,7 @@ public class EnvStore implements EnvSubject {
 
     public void addEnvVariable(UUID envId, EnvVariableModel newEnvVariableModel) {
         Integer index = idIndex.get(envId);
-        if(index == null) return;
+        if (index == null) return;
         EnvModel envModel = envs.get(index);
         List<EnvVariableModel> updatedVars = new ArrayList<>(envModel.variables());
         updatedVars.add(newEnvVariableModel);
@@ -83,11 +99,11 @@ public class EnvStore implements EnvSubject {
 
     public void updateEnvVariable(UUID envId, UUID oldEnvVariableId, EnvVariableModel updatedEnvVariable) {
         Integer index = idIndex.get(envId);
-        if(index == null) return;
+        if (index == null) return;
         EnvModel envModel = envs.get(index);
         List<EnvVariableModel> updatedVars = new ArrayList<>(envModel.variables());
         int selectedVarIndex = findVarIndexById(updatedVars, oldEnvVariableId);
-        if(selectedVarIndex < 0) {
+        if (selectedVarIndex < 0) {
             this.addEnvVariable(envId, updatedEnvVariable);
             return;
         }
@@ -100,11 +116,11 @@ public class EnvStore implements EnvSubject {
 
     public void removeEnvVariable(UUID envId, UUID envVariableId) {
         Integer index = idIndex.get(envId);
-        if(index == null) return;
+        if (index == null) return;
         EnvModel envModel = envs.get(index);
         var vars = envModel.variables();
         int selectedVarIndex = findVarIndexById(vars, envVariableId);
-        if(selectedVarIndex < 0) return;
+        if (selectedVarIndex < 0) return;
         List<EnvVariableModel> updatedVars = new ArrayList<>(envModel.variables());
         updatedVars.remove(selectedVarIndex);
         EnvModel updatedEnvModel = new EnvModel(envModel.title(), envModel.description(), envModel.status(), updatedVars);
@@ -112,7 +128,6 @@ public class EnvStore implements EnvSubject {
         rebuildIdIndex();
         notifyListeners();
     }
-
 
 
     @Override

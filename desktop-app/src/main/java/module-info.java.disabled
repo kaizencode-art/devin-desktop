@@ -16,7 +16,7 @@ module dev.kaizensphere.devin.desktop {
 
     opens dev.kaizensphere.devin.desktop to javafx.fxml;
     exports dev.kaizensphere.devin.desktop;
-    exports dev.kaizensphere.devin.models;
+    exports dev.kaizensphere.devin.model;
     exports dev.kaizensphere.devin.desktop.store;
     exports dev.kaizensphere.devin.desktop.gui.models;
     exports dev.kaizensphere.devin.desktop.gui.controllers.envdetail to javafx.fxml;
