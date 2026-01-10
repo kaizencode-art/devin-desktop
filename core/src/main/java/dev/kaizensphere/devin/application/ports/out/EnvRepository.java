@@ -1,6 +1,6 @@
-package dev.kaizensphere.devin.persistence;
+package dev.kaizensphere.devin.application.ports.out;
 
-import dev.kaizensphere.devin.model.EnvModel;
+import dev.kaizensphere.devin.domain.model.EnvModel;
 
 import java.util.Collection;
 
