@@ -1,6 +1,6 @@
 package dev.kaizensphere.devin.records.subscribers;
 
-import dev.kaizensphere.devin.persistence.EnvRepository;import dev.kaizensphere.devin.store.EnvStore;import dev.kaizensphere.devin.store.EnvStoreListener;
+import dev.kaizensphere.devin.application.ports.out.EnvRepository;import dev.kaizensphere.devin.domain.store.EnvStore;import dev.kaizensphere.devin.domain.store.EnvStoreListener;
 
 public class EnvPersistenceSubscriber implements EnvStoreListener {
 

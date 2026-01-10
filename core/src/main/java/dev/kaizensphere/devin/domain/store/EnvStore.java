@@ -13,8 +13,6 @@ public class EnvStore implements EnvSubject {
 
     public EnvStore() {
         this.envs = new ArrayList<>();
-        envs.add(new EnvModel("test env", "New Environment", EnvModel.Status.VALID, new ArrayList<>()));
-        rebuildIdIndex();
     }
 
     public EnvStore(List<EnvModel> envs) {
