@@ -108,7 +108,6 @@ public class EnvTableviewSectionController {
                 this.tableEnvVariables.add(new EnvVariableModel("", ""));
             }
         }
-        tableVariablesView.scrollTo(this.tableEnvVariables.size() - 1);
     }
 
     private void onEnvVariableNameEditCommitEdit(TableColumn.CellEditEvent<EnvVariableModel, String> event) {

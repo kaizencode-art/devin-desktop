@@ -58,8 +58,10 @@ public final class TableNavigationHelper {
 
 
     private static <T> void focusAndEditCell(TableView<T> tableView, int row, TableColumn<T, ?> column) {
-        tableView.getSelectionModel().clearAndSelect(row, column);
-        tableView.getFocusModel().focus(row, column);
-        Platform.runLater(() -> tableView.edit(row, column));
+        Platform.runLater(() -> {
+            tableView.getSelectionModel().clearAndSelect(row, column);
+            tableView.getFocusModel().focus(row, column);
+            tableView.edit(row, column);
+        });
     }
 }
