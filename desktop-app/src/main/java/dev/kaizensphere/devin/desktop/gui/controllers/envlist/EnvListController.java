@@ -1,7 +1,7 @@
 package dev.kaizensphere.devin.desktop.gui.controllers.envlist;
 
 import dev.kaizensphere.devin.desktop.AppContext;
-import dev.kaizensphere.devin.model.EnvModel;
+import dev.kaizensphere.devin.domain.model.EnvModel;
 import dev.kaizensphere.devin.desktop.observablemodel.SelectedEnv;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;

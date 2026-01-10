@@ -1,6 +1,6 @@
 package dev.kaizensphere.devin.desktop.observablemodel;
 
-import dev.kaizensphere.devin.model.EnvVariableModel;
+import dev.kaizensphere.devin.domain.model.EnvVariableModel;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class EnvVariable {
