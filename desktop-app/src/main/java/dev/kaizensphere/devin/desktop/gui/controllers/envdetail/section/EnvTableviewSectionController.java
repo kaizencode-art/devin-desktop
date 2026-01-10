@@ -2,8 +2,8 @@ package dev.kaizensphere.devin.desktop.gui.controllers.envdetail.section;
 
 import dev.kaizensphere.devin.desktop.AppContext;
 import dev.kaizensphere.devin.desktop.gui.components.env.EnvStringEditableCell;
-import dev.kaizensphere.devin.model.EnvModel;
-import dev.kaizensphere.devin.model.EnvVariableModel;
+import dev.kaizensphere.devin.domain.model.EnvModel;
+import dev.kaizensphere.devin.domain.model.EnvVariableModel;
 import dev.kaizensphere.devin.utils.EnvValidationUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -108,7 +108,6 @@ public class EnvTableviewSectionController {
                 this.tableEnvVariables.add(new EnvVariableModel("", ""));
             }
         }
-        tableVariablesView.scrollTo(this.tableEnvVariables.size() - 1);
     }
 
     private void onEnvVariableNameEditCommitEdit(TableColumn.CellEditEvent<EnvVariableModel, String> event) {
@@ -125,7 +124,7 @@ public class EnvTableviewSectionController {
         EnvVariableModel updatedEnvVariable = modelMapper.apply(oldEnvVariable, newValue);
         UUID envModelId = getSelectedEnv().id();
         if (envModelId != null) {
-            AppContext.envStore.updateEnvVariable(envModelId, oldEnvVariable.id(), updatedEnvVariable);
+            AppContext.environmentService.updateEnvVariable(envModelId, oldEnvVariable.id(), updatedEnvVariable.name(), updatedEnvVariable.value());
         }
     }
 
