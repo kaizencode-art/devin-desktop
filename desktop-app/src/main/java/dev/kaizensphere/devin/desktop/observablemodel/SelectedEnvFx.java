@@ -3,6 +3,7 @@ package dev.kaizensphere.devin.desktop.observablemodel;
 import dev.kaizensphere.devin.domain.model.EnvModel;
 import dev.kaizensphere.devin.domain.store.EnvStore;
 import dev.kaizensphere.devin.domain.store.EnvStoreListener;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -27,12 +28,14 @@ public class SelectedEnvFx implements EnvStoreListener {
         this.store = store;
         store.registerListener(this);
         var envs = store.getEnvs();
-        if(!envs.isEmpty()) selectedEnv.set(envs.get(0));
+        if(!envs.isEmpty()) {
+            selectedEnvIndex.set(0);
+            selectedEnv.set(envs.get(0));
+        }
     }
 
     private int clampIndex(int index, int size) {
-        if (size == 0) return -1;
-        if (index < 0) return 0;
+        if (size == 0 || index < 0) return -1;
         return Math.min(index, size - 1);
     }
 
@@ -40,6 +43,7 @@ public class SelectedEnvFx implements EnvStoreListener {
         selectedEnvIndex.set(idx);
         selectedEnv.set(model);
     }
+
 
     public static SelectedEnvFx getInstance() {
         return INSTANCE;
@@ -65,6 +69,11 @@ public class SelectedEnvFx implements EnvStoreListener {
         List<EnvModel> envs = store.getEnvs();
         int size = envs.size();
         int newIdx = clampIndex(index, size);
+
+        if (newIdx == selectedEnvIndex.get()) {
+            return;
+        }
+
         EnvModel envModel = (newIdx >= 0) ? envs.get(newIdx) : null;
         applySelection(newIdx, envModel);
     }
@@ -81,7 +90,7 @@ public class SelectedEnvFx implements EnvStoreListener {
     @Override
     public void onEnvironmentChanged() {
         List<EnvModel> envs = store.getEnvs();
-        int idx = selectedEnvIndex().get();
+        int idx = selectedEnvIndex.get();
         int size = envs.size();
         int newIdx = clampIndex(idx, size);
         EnvModel model = (newIdx >= 0) ? envs.get(newIdx) : null;
