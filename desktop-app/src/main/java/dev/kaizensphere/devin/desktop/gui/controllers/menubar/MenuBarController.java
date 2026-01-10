@@ -1,9 +1,29 @@
-package dev.kaizensphere.devin.desktop.gui.controllers;
+package dev.kaizensphere.devin.desktop.gui.controllers.menubar;
 
+import dev.kaizensphere.devin.desktop.AppContext;
 import javafx.fxml.FXML;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+
 
 public class MenuBarController {
 
     @FXML
-    public void initialize() {}
+    MenuBar menuBar;
+
+    FileMenu fileMenu;
+    ViewMenu viewMenu;
+
+    @FXML
+    public void initialize() {
+        fileMenu = new FileMenu(AppContext.environmentService);
+        viewMenu = new ViewMenu();
+        menuBar.getMenus().addAll(
+                fileMenu,
+                viewMenu
+        );
+    }
+
+
 }

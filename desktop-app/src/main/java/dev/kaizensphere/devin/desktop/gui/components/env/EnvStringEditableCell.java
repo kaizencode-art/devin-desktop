@@ -1,6 +1,6 @@
 package dev.kaizensphere.devin.desktop.gui.components.env;
 
-import dev.kaizensphere.devin.model.EnvVariableModel;
+import dev.kaizensphere.devin.domain.model.EnvVariableModel;
 import dev.kaizensphere.devin.desktop.gui.behaviors.interaction.TableNavigationHelper;
 import javafx.application.Platform;
 import javafx.scene.control.*;
