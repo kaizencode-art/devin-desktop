@@ -38,7 +38,7 @@ class SelectedEnvFxTest {
         store.addEnv(new EnvModel("Env 2", "Desc", EnvModel.Status.VALID));
 
         selectedEnvFx.setSelectedEnvIndex(-1);
-        assertEquals(0, selectedEnvFx.getSelectedIndex());
+        assertEquals(-1, selectedEnvFx.getSelectedIndex());
 
         selectedEnvFx.setSelectedEnvIndex(5);
         assertEquals(1, selectedEnvFx.getSelectedIndex());

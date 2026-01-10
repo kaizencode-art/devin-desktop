@@ -51,7 +51,7 @@ public class EnvStringEditableCell extends TextFieldTableCell<EnvVariableModel, 
         setText(null);
         setGraphic(this.textField);
         this.textField.requestFocus();
-        Platform.runLater(() -> this.textField.positionCaret(this.textField.getText().length()));
+        Platform.runLater(() -> this.textField.selectAll());
 
     }
 
@@ -76,16 +76,19 @@ public class EnvStringEditableCell extends TextFieldTableCell<EnvVariableModel, 
     private void setupTextFieldInputMap(TextField textField) {
         Nodes.addInputMap(textField, InputMap.sequence(
                 InputMap.consume(EventPattern.keyPressed(KeyCode.ENTER), event -> {
+                    TablePosition<EnvVariableModel, String> pos = getTablePosition();
                     commitEdit(textField.getText());
-                    TableNavigationHelper.navigateToNextCell(getTableView(), getTablePosition());
+                    Platform.runLater(() -> TableNavigationHelper.navigateToNextCell(getTableView(), pos));
                 }),
                 InputMap.consume(EventPattern.keyPressed(KeyCode.TAB), event -> {
+                    TablePosition<EnvVariableModel, String> pos = getTablePosition();
                     commitEdit(textField.getText());
-                    TableNavigationHelper.navigateToNextCell(getTableView(), getTablePosition());
+                    Platform.runLater(() -> TableNavigationHelper.navigateToNextCell(getTableView(), pos));
                 }),
                 InputMap.consume(EventPattern.keyPressed(KeyCode.TAB, SHIFT_ANY), event -> {
+                    TablePosition<EnvVariableModel, String> pos = getTablePosition();
                     commitEdit(textField.getText());
-                    TableNavigationHelper.navigateToPreviousCell(getTableView(), getTablePosition());
+                    Platform.runLater(() -> TableNavigationHelper.navigateToPreviousCell(getTableView(), pos));
                 })
         ));
     }
@@ -94,4 +97,3 @@ public class EnvStringEditableCell extends TextFieldTableCell<EnvVariableModel, 
         return new TablePosition<>(getTableView(), getIndex(), getTableColumn());
     }
 }
-
