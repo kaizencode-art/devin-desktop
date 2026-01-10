@@ -1,7 +1,7 @@
 package dev.kaizensphere.devin.records.storage;
 
-import dev.kaizensphere.devin.model.EnvModel;
-import dev.kaizensphere.devin.persistence.EnvRepository;
+import dev.kaizensphere.devin.domain.model.EnvModel;
+import dev.kaizensphere.devin.application.ports.out.EnvRepository;
 import org.eclipse.store.storage.embedded.types.EmbeddedStorage;
 import org.eclipse.store.storage.embedded.types.EmbeddedStorageManager;
 
@@ -20,13 +20,13 @@ public class EclipseStoreEnvAdapter implements EnvRepository {
 
     @Override
     public void saveAll(Collection<EnvModel> envs) {
-        root.setEnviroments(List.copyOf(envs));
+        root.setEnvironments(List.copyOf(envs));
         storageManager.store(root);
     }
 
     @Override
     public Collection<EnvModel> loadAll() {
-        return root.getEnviroments();
+        return root.getEnvironments();
     }
 
     @Override

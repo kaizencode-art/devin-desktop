@@ -1,18 +1,20 @@
 package dev.kaizensphere.devin.records.storage;
 
-import dev.kaizensphere.devin.model.EnvModel;
+import dev.kaizensphere.devin.domain.model.EnvModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class DataRoot {
-    private List<EnvModel> enviroments;
+    private List<EnvModel> environments;
 
-    public List<EnvModel> getEnviroments() {
-        return enviroments;
+
+    public List<EnvModel> getEnvironments() {
+        return this.environments;
     }
 
-    public void setEnviroments(List<EnvModel> enviroments) {
-        this.enviroments = enviroments;
+    public void setEnvironments(List<EnvModel> environments) {
+        this.environments = environments;
     }
 
 }

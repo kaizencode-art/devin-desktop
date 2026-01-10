@@ -1,7 +1,9 @@
 package dev.kaizensphere.devin.store;
 
-import dev.kaizensphere.devin.model.EnvModel;
-import dev.kaizensphere.devin.model.EnvVariableModel;
+import dev.kaizensphere.devin.domain.model.EnvModel;
+import dev.kaizensphere.devin.domain.model.EnvVariableModel;
+import dev.kaizensphere.devin.domain.store.EnvStore;
+import dev.kaizensphere.devin.domain.store.EnvStoreListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,7 +54,7 @@ class EnvStoreTest {
 
         // When
         EnvModel updated = new EnvModel(original.id(), "Updated", "Updated Env", EnvModel.Status.VALID);
-        envStore.updateEnv(updated);
+        envStore.updateEnv(original.id(), updated);
 
         // Then
         Optional<EnvModel> retrieved = envStore.getEnvById(original.id());
@@ -105,15 +107,16 @@ class EnvStoreTest {
         notificationsCount = 0;
 
         // When
-        envStore.addEnvVariable(oldId, var);
+        EnvModel updated = env.withNewVariable(var);
+        envStore.updateEnv(oldId, updated);
 
         // Then
         List<EnvModel> envs = envStore.getEnvs();
         assertEquals(1, envs.size());
-        EnvModel updated = envs.get(0);
-        assertNotEquals(oldId, updated.id(), "Env ID should change after variable addition");
-        assertEquals(1, updated.variables().size());
-        assertEquals("VAR1", updated.variables().get(0).name());
+        EnvModel result = envs.get(0);
+        assertNotEquals(oldId, result.id(), "Env ID should change after variable addition");
+        assertEquals(1, result.variables().size());
+        assertEquals("VAR1", result.variables().get(0).name());
         assertEquals(1, notificationsCount);
     }
 
@@ -128,15 +131,16 @@ class EnvStoreTest {
         notificationsCount = 0;
 
         // When
-        envStore.updateEnvVariable(oldEnvId, var.id(), updatedVar);
+        EnvModel updatedEnv = env.withUpdatedVariable(var.id(), updatedVar);
+        envStore.updateEnv(oldEnvId, updatedEnv);
 
         // Then
         List<EnvModel> envs = envStore.getEnvs();
         assertEquals(1, envs.size());
-        EnvModel updatedEnv = envs.get(0);
-        assertNotEquals(oldEnvId, updatedEnv.id(), "Env ID should change after variable update");
-        assertEquals("VAR1_UPDATED", updatedEnv.variables().get(0).name());
-        assertEquals("VAL1_UPDATED", updatedEnv.variables().get(0).value());
+        EnvModel result = envs.get(0);
+        assertNotEquals(oldEnvId, result.id(), "Env ID should change after variable update");
+        assertEquals("VAR1_UPDATED", result.variables().get(0).name());
+        assertEquals("VAL1_UPDATED", result.variables().get(0).value());
         assertEquals(1, notificationsCount);
     }
 
@@ -150,14 +154,15 @@ class EnvStoreTest {
         notificationsCount = 0;
 
         // When
-        envStore.removeEnvVariable(oldEnvId, var.id());
+        EnvModel updatedEnv = env.withRemovedVariable(var.id());
+        envStore.updateEnv(oldEnvId, updatedEnv);
 
         // Then
         List<EnvModel> envs = envStore.getEnvs();
         assertEquals(1, envs.size());
-        EnvModel updatedEnv = envs.get(0);
-        assertNotEquals(oldEnvId, updatedEnv.id(), "Env ID should change after variable removal");
-        assertTrue(updatedEnv.variables().isEmpty());
+        EnvModel result = envs.get(0);
+        assertNotEquals(oldEnvId, result.id(), "Env ID should change after variable removal");
+        assertTrue(result.variables().isEmpty());
         assertEquals(1, notificationsCount);
     }
 }

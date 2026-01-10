@@ -1,8 +1,8 @@
 package dev.kaizensphere.devin.desktop.observablemodel;
 
-import dev.kaizensphere.devin.model.EnvModel;
-import dev.kaizensphere.devin.model.EnvVariableModel;
-import dev.kaizensphere.devin.store.EnvStore;
+import dev.kaizensphere.devin.domain.model.EnvModel;
+import dev.kaizensphere.devin.domain.model.EnvVariableModel;
+import dev.kaizensphere.devin.domain.store.EnvStore;
 import javafx.application.Platform;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +38,7 @@ class SelectedEnvFxTest {
         store.addEnv(new EnvModel("Env 2", "Desc", EnvModel.Status.VALID));
 
         selectedEnvFx.setSelectedEnvIndex(-1);
-        assertEquals(0, selectedEnvFx.getSelectedIndex());
+        assertEquals(-1, selectedEnvFx.getSelectedIndex());
 
         selectedEnvFx.setSelectedEnvIndex(5);
         assertEquals(1, selectedEnvFx.getSelectedIndex());
@@ -84,7 +84,9 @@ class SelectedEnvFxTest {
         assertEquals(oldId, selectedEnvFx.getSelectedEnv().id());
 
         // When
-        store.addEnvVariable(oldId, new EnvVariableModel("VAR", "VAL"));
+        EnvModel env = store.getEnvById(oldId).get();
+        EnvModel updated = env.withNewVariable(new EnvVariableModel("VAR", "VAL"));
+        store.updateEnv(oldId, updated);
 
         // Then
         assertEquals(0, selectedEnvFx.getSelectedIndex());

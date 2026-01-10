@@ -1,7 +1,7 @@
 package dev.kaizensphere.devin.desktop.gui.models;
 
 
-import dev.kaizensphere.devin.model.EnvModel;
+import dev.kaizensphere.devin.domain.model.EnvModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
