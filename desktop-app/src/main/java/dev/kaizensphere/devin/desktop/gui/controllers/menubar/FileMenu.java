@@ -1,6 +1,8 @@
 package dev.kaizensphere.devin.desktop.gui.controllers.menubar;
 
 import dev.kaizensphere.devin.application.ports.in.EnvironmentUseCases;
+import dev.kaizensphere.devin.desktop.gui.controllers.envupdate.EnvUpdateController;
+import dev.kaizensphere.devin.desktop.gui.controllers.envupdate.UpdateType;
 import dev.kaizensphere.devin.domain.model.EnvModel;
 import dev.kaizensphere.devin.desktop.observablemodel.SelectedEnvFx;
 import javafx.application.Platform;
@@ -34,7 +36,7 @@ public class FileMenu extends Menu {
     private Menu initializeNewMenu() {
         Menu menu = new Menu("New");
         MenuItem newEnv = new MenuItem("New Environment");
-        newEnv.setOnAction(e -> environmentUseCases.createNewEnvironment());
+        newEnv.setOnAction(e -> EnvUpdateController.showModal(UpdateType.CREATE_ENV, null));
 
         MenuItem newEnvVar = new MenuItem("New Environment Variable");
         newEnvVar.setOnAction(e -> {
