@@ -17,9 +17,10 @@ public class DevinGUI extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
+        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
         FXMLLoader fxmlLoader = new FXMLLoader(DevinGUI.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 600);
-        scene.getStylesheets().add(new PrimerDark().getUserAgentStylesheet());
 
         stage.setMinWidth(800);
         stage.setMinHeight(600);
