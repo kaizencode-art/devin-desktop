@@ -8,7 +8,6 @@ import dev.kaizensphere.devin.records.storage.EclipseStoreEnvAdapter;
 import dev.kaizensphere.devin.records.subscribers.EnvPersistenceSubscriber;
 import dev.kaizensphere.devin.domain.store.EnvStore;
 import dev.kaizensphere.devin.desktop.store.EnvStoreFx;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -26,9 +25,13 @@ public class AppContext {
 
 
     public static final EnvStore envStore = createEnvStore();
-    public static final EnvironmentUseCases environmentService = new EnvironmentService(envStore);
+    public static final EnvironmentUseCases environmentService = createEnvironmentService();
     public static final EnvStoreFx envStoreFx = new EnvStoreFx(envStore);
     public static final SelectedEnvFx selectedEnvFx = SelectedEnvFx.init(envStore);
+
+    private static EnvironmentUseCases createEnvironmentService() {
+        return new EnvironmentService(envStore);
+    }
 
     private static EnvRepository createRepository() {
         String storagePathStr = System.getenv("DEVIN_STORAGE_PATH");

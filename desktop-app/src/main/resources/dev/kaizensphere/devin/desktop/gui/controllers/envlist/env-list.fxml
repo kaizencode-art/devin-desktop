@@ -12,4 +12,5 @@
             fx:controller="dev.kaizensphere.devin.desktop.gui.controllers.envlist.EnvListController">
     <ListView fx:id="environmentListView"
     styleClass="custom-environment-list" />
+
 </VBox>
