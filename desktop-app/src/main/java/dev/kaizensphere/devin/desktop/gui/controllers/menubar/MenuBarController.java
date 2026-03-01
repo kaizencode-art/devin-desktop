@@ -14,14 +14,17 @@ public class MenuBarController {
 
     FileMenu fileMenu;
     ViewMenu viewMenu;
+    EditMenu editMenu;
 
     @FXML
     public void initialize() {
         fileMenu = new FileMenu(AppContext.environmentService);
+        editMenu = new EditMenu(AppContext.environmentService);
         viewMenu = new ViewMenu();
         menuBar.getMenus().addAll(
                 fileMenu,
-                viewMenu
+                viewMenu,
+                editMenu
         );
     }
 

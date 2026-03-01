@@ -25,8 +25,8 @@
     <VBox fx:id="descriptionLastUpdateContainer" spacing="10">
         <children>
             <HBox>
-                <Label fx:id="lastUpdateTitleLabel" styleClass="description-bold" text="Last Update:"/>
-                <Label fx:id="lastUpdateLabel" text="2025-03-07 by user_x">
+                <Label fx:id="lastUpdateTitleLabel" styleClass="" text="Last Update:"/>
+                <Label fx:id="lastUpdateLabel" text="2025-03-07">
                     <padding>
                         <Insets left="5" />
                     </padding>
