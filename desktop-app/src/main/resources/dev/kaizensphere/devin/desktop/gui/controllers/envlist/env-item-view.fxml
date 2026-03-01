@@ -14,7 +14,9 @@
      >
     <VBox spacing="4">
         <Label fx:id="titleLabel" styleClass="item-title" text="Title 1" />
-        <Label fx:id="descriptionLabel" styleClass="item-description" text="Desciption 1" />
+        <Label fx:id="descriptionLabel" styleClass="item-description" text="Desciption 1"
+               textOverrun="ELLIPSIS"
+               wrapText="false" maxWidth="150"/>
     </VBox>
     <Region HBox.hgrow="ALWAYS" />
     <FontIcon fx:id="statusIcon" iconLiteral="fas-circle" styleClass="status-warning" />
