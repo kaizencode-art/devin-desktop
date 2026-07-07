@@ -25,3 +25,41 @@
     -fx-min-height: 45px;
     -fx-border-width: 0;
 }
+
+
+/* Style de base de la liste */
+.custom-environment-list {
+    -fx-background-color: -color-bg-subtle;
+    -fx-border-width: 0;
+}
+
+/* Style de chaque cellule de la liste */
+.custom-environment-list .list-cell {
+    -fx-background-color: transparent; /* Fond transparent par défaut */
+    -fx-padding: 0; /* On retire le padding interne pour laisser l'item prendre toute la place */
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 0 4; /* On réserve 4px à gauche pour la barre de sélection */
+}
+
+/* Effet au survol de la souris */
+.custom-environment-list .list-cell:hover {
+    -fx-background-color: -color-bg-hover;
+}
+
+/* Style quand l'environnement est sélectionné */
+.custom-environment-list .list-cell:selected {
+    -fx-background-color: -color-accent-subtle; /* Fond bleu très léger */
+    -fx-border-color: -color-accent-emphasis;    /* Barre bleue intense à gauche */
+}
+
+/* Optionnel : changer la couleur du titre quand sélectionné pour plus de contraste */
+.custom-environment-list .list-cell:selected .item-title {
+    -fx-text-fill: -color-accent-fg;
+}
+
+/* Style du conteneur interne (défini dans env-item-view.fxml) */
+.list-item {
+    -fx-min-height: 45px;
+    -fx-padding: 10 15; /* Ajoute de l'espace interne (haut/bas gauche/droite) */
+    -fx-cursor: hand;   /* Change le curseur en main pour indiquer que c'est cliquable */
+}
