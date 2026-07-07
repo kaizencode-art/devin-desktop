@@ -21,7 +21,7 @@ public class EnvListController {
         // Listener: Vue -> Modèle
         environmentListView.getSelectionModel().selectedIndexProperty().addListener((obs, oldIdx, newIdx) -> {
             if (isUpdating) return;
-            
+
             // On ignore le -1 provenant de la vue (souvent une phase de transition lors d'un rafraîchissement)
             if (newIdx != null && newIdx.intValue() != -1) {
                 isUpdating = true;
@@ -47,11 +47,6 @@ public class EnvListController {
             }
         });
 
-        if(!environmentListView.getItems().isEmpty()) {
-            environmentListView.getSelectionModel().select(0);
-            AppContext.selectedEnvFx.setSelectedEnvIndex(0);
-        } else {
-            AppContext.selectedEnvFx.setSelectedEnvIndex(-1);
-        }
+        AppContext.selectedEnvFx.setSelectedEnvIndex(-1);
     }
 }
