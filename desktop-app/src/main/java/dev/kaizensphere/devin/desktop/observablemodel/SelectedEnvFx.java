@@ -27,11 +27,6 @@ public class SelectedEnvFx implements EnvStoreListener {
     private SelectedEnvFx(EnvStore store) {
         this.store = store;
         store.registerListener(this);
-        var envs = store.getEnvs();
-        if(!envs.isEmpty()) {
-            selectedEnvIndex.set(0);
-            selectedEnv.set(envs.get(0));
-        }
     }
 
     private int clampIndex(int index, int size) {
