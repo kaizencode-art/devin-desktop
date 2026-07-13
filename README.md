@@ -1,5 +1,5 @@
-# D.E.V.IN
-> **D**istributed **E**nvironment **V**ariable **In**tegration
+# DEVIN
+> **D**istributed **E**nvironment **V**ariable **IN**tegration
 
 ## Objective
 

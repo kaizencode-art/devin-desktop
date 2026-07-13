@@ -2,5 +2,4 @@ rootProject.name = "devin"
 include("desktop-app")
 include 'core'
 include 'devin-records'
-include 'devin-records'
-include 'devin-records'
+include 'devin-p2p'
