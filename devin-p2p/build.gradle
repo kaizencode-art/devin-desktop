@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group = 'dev.kaizensphere.devin.p2p'
+version = 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Source: https://mvnrepository.com/artifact/io.vertx/vertx-hazelcast
+    implementation 'io.vertx:vertx-hazelcast:5.1.4'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}

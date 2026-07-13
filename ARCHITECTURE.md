@@ -1,6 +1,6 @@
-# Environment Management Architecture – Devin
+# Environment Management Architecture – DEVIN
 
-This document explains how environment state is handled in Devin.
+This document explains how environment state is handled in DEVIN.
 
 ## Core idea
 
