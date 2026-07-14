@@ -1,6 +1,6 @@
-package dev.kaizensphere.devin.p2p.internal.recording;
+package dev.kaizensphere.devin.p2p.handler.recording;
 
-import dev.kaizensphere.devin.p2p.P2PMessageHandler;
+import dev.kaizensphere.devin.p2p.handler.P2PMessageHandler;
 import dev.kaizensphere.devin.p2p.entity.Message;
 
 public class RecordingMessageHandler implements P2PMessageHandler {
