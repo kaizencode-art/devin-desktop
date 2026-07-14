@@ -2,6 +2,9 @@ package dev.kaizensphere.devin.p2p;
 
 import dev.kaizensphere.devin.p2p.entity.Message;
 import dev.kaizensphere.devin.p2p.entity.NodeId;
+import dev.kaizensphere.devin.p2p.handler.P2PMessageHandler;
+import dev.kaizensphere.devin.p2p.transport.P2PTransport;
+import io.vertx.core.Future;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -10,6 +13,7 @@ public class DevinP2P {
 
     private final P2PTransport transport;
     private final P2PMessageHandler handler;
+    private final Future<Void> ready;
     private final NodeId nodeId;
 
     public DevinP2P(NodeId nodeId, P2PTransport transport, P2PMessageHandler handler) {
@@ -17,7 +21,7 @@ public class DevinP2P {
         this.transport = Objects.requireNonNull(transport);
         this.handler = Objects.requireNonNull(handler);
 
-        this.transport.register(this::receive);
+        this.ready = this.transport.start(this::receive);
     }
 
     public DevinP2P(P2PTransport transport, P2PMessageHandler handler) {
@@ -38,5 +42,9 @@ public class DevinP2P {
             return;
         }
         handler.handle(message);
+    }
+
+    public Future<Void> ready() {
+        return ready;
     }
 }
