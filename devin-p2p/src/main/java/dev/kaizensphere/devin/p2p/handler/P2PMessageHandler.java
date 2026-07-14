@@ -1,4 +1,4 @@
-package dev.kaizensphere.devin.p2p;
+package dev.kaizensphere.devin.p2p.handler;
 
 import dev.kaizensphere.devin.p2p.entity.Message;
 

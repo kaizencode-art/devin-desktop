@@ -1,8 +1,8 @@
 package dev.kaizensphere.devin.p2p;
 
 import dev.kaizensphere.devin.p2p.entity.NodeId;
-import dev.kaizensphere.devin.p2p.internal.recording.RecordingMessageHandler;
-import dev.kaizensphere.devin.p2p.internal.recording.RecordingTransport;
+import dev.kaizensphere.devin.p2p.handler.recording.RecordingMessageHandler;
+import dev.kaizensphere.devin.p2p.transport.recording.RecordingTransport;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -19,17 +19,6 @@ public class DevinP2PTest {
 
         Assertions.assertArrayEquals(payload, transport.sentMessage().payload());
     }
-
-//    @Test
-//    public void should_forward_a_received_payload_to_a_handler() {
-//        var transport = new RecordingTransport();
-//        var handler = new RecordingMessageHandler();
-//        var p2p = new DevinP2P(transport, handler);
-//        var payload = new byte[] {1, 2, 3};
-//
-//        p2p.receive(payload);
-//        Assertions.assertArrayEquals(payload, handler.receivedPayload());
-//    }
 
     @Test
     public void should_forward_a_received_payload_to_a_handler() {
@@ -96,5 +85,32 @@ public class DevinP2PTest {
         transport.simulateIncoming(senderNode, payload);
         Assertions.assertEquals(senderNode, handler.receivedMessage().sender());
         Assertions.assertArrayEquals(payload, handler.receivedMessage().payload());
+    }
+
+    @Test
+    public void should_be_ready_when_transport_registration_completes() throws Exception{
+        var transport = new RecordingTransport();
+        var handler = new RecordingMessageHandler();
+        var p2p = new DevinP2P(new NodeId("node-1"), transport, handler);
+        p2p.ready()
+                .toCompletionStage()
+                .toCompletableFuture()
+                .get();
+        Assertions.assertTrue(p2p.ready().succeeded());
+    }
+
+    @Test
+    public void should_stop_forwarding_messages_after_close() {
+        var transport = new RecordingTransport();
+        var handler = new RecordingMessageHandler();
+
+        transport.start(handler::handle);
+
+        transport.close();
+        transport.simulateIncoming(
+                new NodeId("node-42"),
+                new byte[]{1, 2, 3}
+        );
+        Assertions.assertNull(handler.receivedMessage());
     }
 }
