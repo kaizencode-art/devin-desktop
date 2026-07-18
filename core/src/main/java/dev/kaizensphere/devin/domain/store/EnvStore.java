@@ -27,22 +27,23 @@ public class EnvStore implements EnvSubject {
         }
     }
 
-    private void notifyListeners() {
-        listeners.forEach(EnvStoreListener::onEnvironmentChanged);
+    private void notifyListeners(EnvStoreListener.Change change) {
+        listeners.forEach(listener -> listener.onEnvironmentChanged(change));
     }
 
     public void addEnv(EnvModel envModel) {
         envs.add(envModel);
         idIndex.put(envModel.id(), envs.size() - 1);
-        notifyListeners();
+        notifyListeners(new EnvStoreListener.Change.EnvAdded(envModel));
     }
 
     public void updateEnv(UUID oldId, EnvModel newEnv) {
         Integer index = idIndex.get(oldId);
         if (index == null) return;
+        EnvModel oldEnv = envs.get(index);
         envs.set(index, newEnv);
         rebuildIdIndex();
-        notifyListeners();
+        notifyListeners(new EnvStoreListener.Change.EnvUpdated(oldEnv, newEnv));
     }
 
     public boolean removeEnv(EnvModel envModel) {
@@ -56,7 +57,7 @@ public class EnvStore implements EnvSubject {
         }
         if (removed) {
             rebuildIdIndex();
-            notifyListeners();
+            notifyListeners(new EnvStoreListener.Change.EnvDeleted(envModel));
         }
         return removed;
     }
