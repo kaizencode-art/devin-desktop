@@ -24,7 +24,7 @@ public class EnvStoreFx  implements EnvStoreListener {
     }
 
     @Override
-    public void onEnvironmentChanged() {
+    public void onEnvironmentChanged(Change change) {
         Runnable apply = () -> envsFx.setAll(store.getEnvs());
         if(Platform.isFxApplicationThread()) apply.run();
         else Platform.runLater(apply);

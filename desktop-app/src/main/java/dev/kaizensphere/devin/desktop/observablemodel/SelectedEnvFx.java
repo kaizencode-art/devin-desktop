@@ -83,12 +83,14 @@ public class SelectedEnvFx implements EnvStoreListener {
     }
 
     @Override
-    public void onEnvironmentChanged() {
-        List<EnvModel> envs = store.getEnvs();
-        int idx = selectedEnvIndex.get();
-        int size = envs.size();
-        int newIdx = clampIndex(idx, size);
-        EnvModel model = (newIdx >= 0) ? envs.get(newIdx) : null;
-        applySelection(newIdx, model);
+    public void onEnvironmentChanged(Change change) {
+        Platform.runLater(() -> {
+            List<EnvModel> envs = store.getEnvs();
+            int idx = selectedEnvIndex.get();
+            int size = envs.size();
+            int newIdx = clampIndex(idx, size);
+            EnvModel model = (newIdx >= 0) ? envs.get(newIdx) : null;
+            applySelection(newIdx, model);
+        });
     }
 }

@@ -13,7 +13,7 @@ public class EnvPersistenceSubscriber implements EnvStoreListener {
     }
 
     @Override
-    public void onEnvironmentChanged() {
+    public void onEnvironmentChanged(Change change) {
         repository.saveAll(store.getEnvs());
     }
 }

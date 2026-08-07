@@ -24,7 +24,9 @@ class EnvStoreTest {
     void setUp() {
         envStore = new EnvStore();
         notificationsCount = 0;
-        mockListener = () -> notificationsCount++;
+        mockListener = change -> {
+            notificationsCount++;
+        };
         envStore.registerListener(mockListener);
     }
 
