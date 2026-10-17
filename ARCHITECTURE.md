@@ -8,7 +8,7 @@ The `core` module uses an immutable model.
 Objects are never modified in place. Any change creates a new instance.
 
 When an environment changes:
-- the old `EnvModel` is removed from the `EnvStore`
+- the old `EnvModel` is removed from the `InMemoryEnvStore`
 - a new `EnvModel` is created with a new UUID
 
 This keeps state changes explicit and avoids side effects. It also makes future features like Undo/Redo possible without redesigning the core.
@@ -29,7 +29,7 @@ From the user’s perspective, the selection stays the same.
 ### core
 - business logic only
 - immutable `EnvModel` and `EnvVariableModel`
-- `EnvStore` manages state and UUIDs
+- `InMemoryEnvStore` manages state and UUIDs
 - no JavaFX dependency
 
 ### desktop-app
