@@ -4,9 +4,9 @@ import dev.kaizensphere.devin.application.ports.in.EnvironmentUseCases;
 import dev.kaizensphere.devin.application.services.EnvironmentService;
 import dev.kaizensphere.devin.desktop.observablemodel.SelectedEnvFx;
 import dev.kaizensphere.devin.application.ports.out.EnvRepository;
+import dev.kaizensphere.devin.domain.store.InMemoryEnvStore;
 import dev.kaizensphere.devin.records.storage.EclipseStoreEnvAdapter;
 import dev.kaizensphere.devin.records.subscribers.EnvPersistenceSubscriber;
-import dev.kaizensphere.devin.domain.store.EnvStore;
 import dev.kaizensphere.devin.desktop.store.EnvStoreFx;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class AppContext {
 
 
 
-    public static final EnvStore envStore = createEnvStore();
+    public static final InMemoryEnvStore envStore = createEnvStore();
     public static final EnvironmentUseCases environmentService = createEnvironmentService();
     public static final EnvStoreFx envStoreFx = new EnvStoreFx(envStore);
     public static final SelectedEnvFx selectedEnvFx = SelectedEnvFx.init(envStore);
@@ -41,10 +41,10 @@ public class AppContext {
         return new EclipseStoreEnvAdapter(Path.of(storagePathStr));
     }
 
-    private static EnvStore createEnvStore() {
+    private static InMemoryEnvStore createEnvStore() {
         var loaded = repository.loadAll();
-        if(loaded != null) return new EnvStore(new ArrayList<>(loaded));
-        return new EnvStore();
+        if(loaded != null) return new InMemoryEnvStore(new ArrayList<>(loaded));
+        return new InMemoryEnvStore();
     }
 
     public static void run() {

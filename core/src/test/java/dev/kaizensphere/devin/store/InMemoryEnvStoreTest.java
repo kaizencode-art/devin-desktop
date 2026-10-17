@@ -2,7 +2,7 @@ package dev.kaizensphere.devin.store;
 
 import dev.kaizensphere.devin.domain.model.EnvModel;
 import dev.kaizensphere.devin.domain.model.EnvVariableModel;
-import dev.kaizensphere.devin.domain.store.EnvStore;
+import dev.kaizensphere.devin.domain.store.InMemoryEnvStore;
 import dev.kaizensphere.devin.domain.store.EnvStoreListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,18 +13,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-class EnvStoreTest {
+class InMemoryEnvStoreTest {
 
-    private EnvStore envStore;
+    private InMemoryEnvStore envStore;
     private EnvStoreListener mockListener;
 
     private int notificationsCount = 0;
 
     @BeforeEach
     void setUp() {
-        envStore = new EnvStore();
+        envStore = new InMemoryEnvStore();
         notificationsCount = 0;
-        mockListener = () -> notificationsCount++;
+        mockListener = change -> {
+            notificationsCount++;
+        };
         envStore.registerListener(mockListener);
     }
 
@@ -39,7 +41,7 @@ class EnvStoreTest {
         // Then
         List<EnvModel> allEnvs = envStore.getEnvs();
         assertTrue(allEnvs.contains(env), "The newly added env should be in the store");
-        Optional<EnvModel> retrieved = envStore.getEnvById(env.id());
+        Optional<EnvModel> retrieved = envStore.getEnv(env);
         assertTrue(retrieved.isPresent(), "Env should be retrievable by its ID");
         assertEquals(env, retrieved.get(), "Retrieved env should match the added env");
         assertEquals(1, notificationsCount);
@@ -54,10 +56,10 @@ class EnvStoreTest {
 
         // When
         EnvModel updated = new EnvModel(original.id(), "Updated", "Updated Env", EnvModel.Status.VALID);
-        envStore.updateEnv(original.id(), updated);
+        envStore.updateEnv(original, updated);
 
         // Then
-        Optional<EnvModel> retrieved = envStore.getEnvById(original.id());
+        Optional<EnvModel> retrieved = envStore.getEnv(updated);
         assertTrue(retrieved.isPresent(), "Updated env should still be retrievable");
         assertEquals("Updated", retrieved.get().title(), "Env name should match the updated value");
         assertEquals(1, notificationsCount);
@@ -93,7 +95,7 @@ class EnvStoreTest {
         // Then
         assertTrue(removed, "Env should be successfully removed on happy path");
         assertFalse(envStore.getEnvs().contains(env), "Removed env should not be in the store anymore");
-        assertTrue(envStore.getEnvById(env.id()).isEmpty(), "Removed env should not be retrievable");
+        assertTrue(envStore.getEnv(env).isEmpty(), "Removed env should not be retrievable");
         assertEquals(1, notificationsCount);
     }
 
@@ -108,7 +110,7 @@ class EnvStoreTest {
 
         // When
         EnvModel updated = env.withNewVariable(var);
-        envStore.updateEnv(oldId, updated);
+        envStore.updateEnv(env, updated);
 
         // Then
         List<EnvModel> envs = envStore.getEnvs();
@@ -132,7 +134,7 @@ class EnvStoreTest {
 
         // When
         EnvModel updatedEnv = env.withUpdatedVariable(var.id(), updatedVar);
-        envStore.updateEnv(oldEnvId, updatedEnv);
+        envStore.updateEnv(env, updatedEnv);
 
         // Then
         List<EnvModel> envs = envStore.getEnvs();
@@ -155,7 +157,7 @@ class EnvStoreTest {
 
         // When
         EnvModel updatedEnv = env.withRemovedVariable(var.id());
-        envStore.updateEnv(oldEnvId, updatedEnv);
+        envStore.updateEnv(env, updatedEnv);
 
         // Then
         List<EnvModel> envs = envStore.getEnvs();

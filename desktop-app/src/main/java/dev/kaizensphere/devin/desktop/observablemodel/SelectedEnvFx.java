@@ -1,7 +1,7 @@
 package dev.kaizensphere.devin.desktop.observablemodel;
 
 import dev.kaizensphere.devin.domain.model.EnvModel;
-import dev.kaizensphere.devin.domain.store.EnvStore;
+import dev.kaizensphere.devin.domain.store.InMemoryEnvStore;
 import dev.kaizensphere.devin.domain.store.EnvStoreListener;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -13,18 +13,18 @@ import java.util.List;
 
 public class SelectedEnvFx implements EnvStoreListener {
 
-    private final EnvStore store;
+    private final InMemoryEnvStore store;
     private static  SelectedEnvFx INSTANCE ;
 
     private final ReadOnlyIntegerWrapper selectedEnvIndex = new ReadOnlyIntegerWrapper(-1);
     private final ReadOnlyObjectWrapper<EnvModel> selectedEnv = new ReadOnlyObjectWrapper<>();
 
-    public static SelectedEnvFx init(EnvStore store) {
+    public static SelectedEnvFx init(InMemoryEnvStore store) {
         INSTANCE = new SelectedEnvFx(store);
         return INSTANCE;
     }
 
-    private SelectedEnvFx(EnvStore store) {
+    private SelectedEnvFx(InMemoryEnvStore store) {
         this.store = store;
         store.registerListener(this);
     }
@@ -83,12 +83,14 @@ public class SelectedEnvFx implements EnvStoreListener {
     }
 
     @Override
-    public void onEnvironmentChanged() {
-        List<EnvModel> envs = store.getEnvs();
-        int idx = selectedEnvIndex.get();
-        int size = envs.size();
-        int newIdx = clampIndex(idx, size);
-        EnvModel model = (newIdx >= 0) ? envs.get(newIdx) : null;
-        applySelection(newIdx, model);
+    public void onEnvironmentChanged(Change change) {
+        Platform.runLater(() -> {
+            List<EnvModel> envs = store.getEnvs();
+            int idx = selectedEnvIndex.get();
+            int size = envs.size();
+            int newIdx = clampIndex(idx, size);
+            EnvModel model = (newIdx >= 0) ? envs.get(newIdx) : null;
+            applySelection(newIdx, model);
+        });
     }
 }
