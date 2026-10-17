@@ -45,6 +45,7 @@ dependencies {
 
     implementation project(":core")
     implementation project(":devin-records")
+    implementation project(":devin-p2p")
 
     implementation('org.controlsfx:controlsfx:11.2.1')
     implementation('com.dlsc.formsfx:formsfx-core:11.6.0') {
@@ -72,6 +73,12 @@ dependencies {
     testImplementation("org.mockito:mockito-junit-jupiter:5.17.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    // Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.22.1")
+
+    implementation('io.vertx:vertx-core:5.1.4')
+    implementation('io.vertx:vertx-hazelcast:5.1.4')
 
     mockitoAgent("org.mockito:mockito-core:5.17.0") {
         transitive = false
